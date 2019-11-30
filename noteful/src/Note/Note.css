@@ -1,0 +1,33 @@
+button{
+    border: 1px solid black;
+    padding: 4% 80px;
+    /* right: 50px; */
+    /* position: absolute; */
+    margin: 10% 0;
+    white-space: nowrap;
+    font-size: 14px;
+}
+
+.note{
+    height: 100vh;
+    position: relative;
+}
+
+.note-main{
+    border-right: 1px solid;
+    margin: -40px 0;
+}
+
+.note-list{
+    border: 1px solid black;
+    margin: 0 0 50px 0;
+    list-style: none;
+    width: 200px;
+    height: fit-content;
+    padding: 19px 0 20px 17px;
+    background: white;
+}
+
+h2{
+    font-weight: 200;
+}

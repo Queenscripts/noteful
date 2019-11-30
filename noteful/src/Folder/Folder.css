@@ -1,0 +1,29 @@
+ul.add{
+    margin: 5%;
+    list-style: none;
+}
+
+.fold{
+    list-style: none;
+}
+
+
+ul.left{
+    list-style: none;   
+
+}
+
+li.fold{
+    border: .5px solid black;
+    padding:10%;
+    background: white;
+
+}
+
+li.fold:hover{
+    background: lightblue;
+}
+
+li.fold:selected{
+    background: lightblue;
+}

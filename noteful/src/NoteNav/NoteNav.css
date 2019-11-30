@@ -1,0 +1,8 @@
+.NoteDetails{
+    display: flex;
+    flex-direction: row;
+}
+
+.details{
+    margin: 0 50px;
+}
