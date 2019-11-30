@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "config": "^3.2.4",
     "date-fns": "^2.8.1",
     "format": "^0.2.2",
     "knex": "^0.20.1",

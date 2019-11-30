@@ -1,13 +1,16 @@
 import React, { Component } from "react";
 import { Route, Link } from "react-router-dom";
 import Note from "../Note/Note";
+import PageMain from "../PageMain/PageMain"
 import NoteList from "../NoteList/NoteList";
 import NoteNav from "../NoteNav/NoteNav";
 import AddFolder from "../AddFolder/AddFolder"
 import AddNote from "../AddNote/AddNote"
 import store from "../store";
 import "./App.css";
-import { getNotesForFolder, findNote, findFolder } from "../notes-helper";
+import ApiContext from '../ApiContext';
+import config from '../config';
+import FolderNotes from "../Folder/FolderNotes";
 
 
 export default class App extends Component {
@@ -17,115 +20,78 @@ export default class App extends Component {
   };
 
   componentDidMount() {
-    //add date to note section
-    setTimeout(() => this.setState(store), 600);
+    Promise.all([
+      fetch(`${config.API_ENDPOINT}/notes`),
+      fetch(`${config.API_ENDPOINT}/folders`)
+    ])
+      .then(([notesRes, foldersRes]) => {
+        if (!notesRes.ok)
+          return notesRes.json()
+          .then(e=>Promise.reject(e));
+        if (!foldersRes.ok)
+          return foldersRes.json()
+          .then(e=> Promise.reject(e));
+          return Promise.all([notesRes.json(), foldersRes.json()]);
+      })
+      .then(([notes, folders]) => {
+        this.setState({notes, folders});
+      })
+      .catch(error => {
+        console.error({error});
+      });
   }
-
+  handleDeleteNote = noteId => {
+    this.setState({
+      notes: this.state.notes.filter(note=> note.id !== noteId)
+    });
+  };
   renderFolder() {
-    const {notes, folders} = this.state
     return (
       <>
         <Route
           exact
           key="/"
           path="/"
-          render={routeProps => 
-            <NoteList 
-              folders={folders} 
-              notes={notes}{...routeProps}
-            />
-          }
+          component={NoteList}
         />
         <Route
           path="/note/:noteId"
-          render={routeProps => {
-            const {noteId} = routeProps.match.params;
-            const note = findNote(notes, noteId) || {}
-            const folder = findFolder(folders, note.folderId)
-            return ( 
-            <NoteNav 
-              {...routeProps}       
-              folder={folder}
-              note={note} />
-            )
-          }}
+          component={NoteNav}
+        />
+        <Route
+          path="/note/:noteId"
+          component={PageMain}
         />
         
         <Route
           exact
           key="/folder/:folderId"
           path="/folder/:folderId"
-          render={routeProps => 
-            <NoteList 
-              folders={folders}
-              notes={notes}
-              {...routeProps}
-            />
-          }
+          component={NoteList}
         />
-          <Route path="/add-folder"  render={routeProps => {
-              const {noteId} = routeProps.match.params;
-              const note = findNote(notes, noteId) || {}
-              const folder = findFolder(folders, note.folderId)
-              return ( 
-              <NoteNav 
-                {...routeProps}       
-                folder={folder}
-                note={note} />
-              )
-            }}
+          <Route path="/add-folder"  
+          component={NoteNav}
         />
-          <Route path="/add-note"    render={routeProps => {
-              const {noteId} = routeProps.match.params;
-              const note = findNote(notes, noteId) || {}
-              const folder = findFolder(folders, note.folderId)
-              return ( 
-              <NoteNav 
-                {...routeProps}       
-                folder={folder}
-                note={note} />
-              )
-            }}
+        <Route 
+          path="/add-note"    
+          component={NoteNav}
         /> 
     </>
-  )}
+  );
+}
   renderFolderRoutes() {
-    const {notes, folders} = this.state;
     return (
       <>
+        
         <Route
           exact key= "/folder/:folderId"
           path="/folder/:folderId"
-          render={routeProps => {
-            const {folderId} = routeProps.match.params
-            const notesForFolder = getNotesForFolder(notes, folderId)
-            return (
-              <div>
-              <Note
-                {...routeProps}
-                notes={notesForFolder}
-              />
-              </div>
-              
-            )
-          }}
+          component={Note}
         />
         <Route
           exact key= "/"
           path="/"
-          render={routeProps => {
-            const {folderId} = routeProps.match.params
-            const notesForFolder = getNotesForFolder(notes, folderId)
-            return (
-              <div>
-              <Note
-                {...routeProps}
-                notes={notesForFolder}
-              />
-              </div>
-              
-            )
-          }}
+          component={Note}
         />
       <Route
         path='/add-folder'
@@ -133,14 +99,7 @@ export default class App extends Component {
       />
       <Route
         path='/add-note'
-        render={routeProps =>{
-          return (
-            <AddNote
-              {...routeProps}
-              folders={folders}
-            />
-          )
-        }}
+        component={AddNote}
       />
     </>
     )
@@ -149,8 +108,15 @@ export default class App extends Component {
 
   render() {
     // final main render to bring it all together now
+      const value = {
+        notes: this.state.notes, 
+        folders: this.state.folders, 
+        deleteNote: this.handleDeleteNote
+      };
     return (
-      <div className="body">
+      <ApiContext.Provider 
+      value={value}>
+        <div className="body">
         <header>
           <h1>
             <Link to="/" className="link" to="/">
@@ -169,6 +135,7 @@ export default class App extends Component {
         </div>
         {/* Render Notes */}
       </div>
+      </ApiContext.Provider>
     );
     }
 }

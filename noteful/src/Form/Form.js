@@ -1,11 +1,11 @@
 import React from 'react'
 
-export default function Form (props){
+export default function Form(props){
     const {...otherProps} = props
-    return(
+    return (
         <form
             action="#"
             {...otherProps}
-            />
+        />
     )
 }
