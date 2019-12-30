@@ -13,7 +13,7 @@ export default class FolderNotes extends React.Component {
     handleClickDelete = e => {
       e.preventDefault()
       const noteId = this.props.id
-
+      console.log('noteid', this.props.id)
       fetch(`${config.API_ENDPOINT}/notes/${noteId}`,{
         method: 'DELETE',
         headers:{

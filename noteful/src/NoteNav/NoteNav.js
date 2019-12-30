@@ -2,6 +2,7 @@ import React from 'react'
 import ApiContext from '../ApiContext'
 import {findNote, findFolder} from '../notes-helper'
 import './NoteNav.css'
+import PropTypes from 'prop-types'
 
 export default class NoteNav extends React.Component{
     static defaultProps={
@@ -36,3 +37,7 @@ export default class NoteNav extends React.Component{
          )
     }
 }
+
+NoteNav.propTypes={
+    notes: PropTypes.array,
+};
