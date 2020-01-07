@@ -21,16 +21,17 @@ export default class App extends Component {
       name: '',
       content: '',
       folderId: '',
-      folder: ''
+      folder: '',
+      nameError:'', 
     };
     this.onNameChange= this.onNameChange.bind(this);
     this.onContentChange= this.onContentChange.bind(this);
     this.onfolderChange= this.onfolderChange.bind(this)
     this.newFolder=this.newFolder.bind(this)
+    this.validate=this.validate.bind(this)
   }
   newFolder(e){
     e.preventDefault()
-    console.log('folder', e.target.value)
     this.setState({
       folder: e.target.value
     })
@@ -72,52 +73,72 @@ export default class App extends Component {
 
     }
     fetchData().then(res=>{
-      console.log('res',res[1])
       this.setState({
         notes: res[0],
         folders: res[1],
       })
  
-    //   })
-    // })
-    // .catch(err => {
-    //   this.setState({
-    //     error: err.message
-    //   });
-    // });
     })
   }
 
+
+validate = () => {
+  let nameError = <p></p>;
+  console.log('NAME', this.state.folder)
+  if(this.state.name==="" || this.state.folder==="" ){
+    nameError = <p style={{color:'red'}}> Name required</p> 
+    this.setState({nameError});
+    return false
+  }
+  this.setState({nameError:''});
+  return true
+}
+
 folderSubmit = (e) =>{
   e.preventDefault();
-  const folder = {name: this.state.folder};
-  console.log('newfolder', folder)
-  fetch("http://localhost:9090/folders", {
-      method: "POST",
-      body: JSON.stringify(folder),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-    .then(res => {
-      if (!res.ok) {
-        throw new Error ('Something is wrong, try again')
-      }
-      return res.json()
-    })
-    .then(data => {
-      console.log('data',data)
-      let newFolder= this.state.folders
-      // console.log('new folder', this.state.folders)
-      newFolder.push(data)
-      console.log('new folder', newFolder)
-      this.setState({folders: newFolder})
-    })
-    .catch(error => alert(error))
-}
+  const isValid = this.validate();
+  console.log('youvalid?', isValid)
+  if(this.state.folder){
+    const folder = {name: this.state.folder};
+    fetch("http://localhost:9090/folders", {
+        method: "POST",
+        body: JSON.stringify(folder),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(res => {
+        if (!res.ok) {
+          throw new Error ('Something is wrong, try again')
+        }
+        return res.json()
+      })
+      .then(data => {
+        console.log('folderdata', data)
+        if(data.name !==""){
+          this.setState({nameError:''})
+        }
+        let newFolder= this.state.folders
+        newFolder.push(data)
+        this.setState({folders: newFolder})
+      })
+      
+      .catch(error => alert(error))
+    }
+    this.setState({folder:''})
+    
+    
+  }
+
+ 
 
 handleSubmit = (e) => {
   e.preventDefault();
+  const isValid = this.validate();
+  if(!isValid){
+    console.log('ERRORS', this.props.nameError)
+  }
+  else{
   const {name, content,folderId} = this.state;
   const newNote = {name, content,folderId}
   console.log('newnote', newNote)
@@ -137,7 +158,6 @@ handleSubmit = (e) => {
     })
     
     .then(data => {
-      console.log('data',data)
       let tempNotes= this.state.notes
       tempNotes.push(newNote)
       this.setState({
@@ -146,15 +166,14 @@ handleSubmit = (e) => {
           folderId: data.folderId,
           notes: tempNotes
       });
-      
+      this.setState({name:''})
+     
     })
-    .catch(error => alert(error))
+    .catch(error => alert(error))}
   }
 
 
 handleDeleteNote = (noteId) => {
-  console.log('delnote', noteId)
-
   this.setState({
     notes: this.state.notes.filter(note=> note.id !== noteId)
   });
@@ -197,8 +216,6 @@ handleDeleteNote = (noteId) => {
   )
 }
   renderFolderRoutes() {
-    console.log('notes', this.state.notes)
-
     return (
       <>
       <Route
@@ -219,6 +236,7 @@ handleDeleteNote = (noteId) => {
               folderSubmit={this.folderSubmit}
               newFolder={this.newFolder}
               folder={this.state.folder}
+              nameError={this.state.nameError}
             />
           </AddFolderError>
         }
@@ -234,11 +252,12 @@ handleDeleteNote = (noteId) => {
               content={this.state.content}
               folder={this.state.folderId}
               onfolderChange={this.onfolderChange}
+              nameError={this.state.nameError}
+              
             />
 
         }
       />
-     { console.log('NAME',this.state.name)}
 
     </>
     )

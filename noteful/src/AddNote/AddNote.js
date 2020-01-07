@@ -13,25 +13,23 @@ export default class AddNote extends React.Component{
     static contextType = ApiContext;
 
     render(){ 
-
-    const {folders } = this.context
-
-    console.log('addnote', this.props)
+    const {folders} = this.context
     return(
-       
-
         <section>
             <h2> Create Note</h2>
             <Form onSubmit = {e => {
-                console.log('add note props', this.props)
                 this.props.handleSubmit(e)
-                this.props.history.push(`/`)
-            }}>
+                if(this.props.name){
+                    this.props.history.push('/')
+                }
+            }}
+            >
                 <div>
                     <label htmlFor='note-name-input' >
                         Name
                     </label>
                     <input type='text' id='note-name-input' value={this.props.name} onChange={this.props.onNameChange}/>
+                    {this.props.nameError}
                 </div>
                 <div>
                     <label htmlFor='note-content-input'>

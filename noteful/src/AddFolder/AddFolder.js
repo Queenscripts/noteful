@@ -9,15 +9,18 @@ export default class AddFolder extends Component{
             <section>
                 <h2> Create Folder</h2>
                 <Form onSubmit = {e => 
-                {  console.log('add folder props', this.props)
+                {  
                     this.props.folderSubmit(e)
-                    this.props.history.push(`/`)
+                    if(this.props.folder){
+                         this.props.history.push('/')
+                     }
                 }
                     }>
                     <label htmlFor='folder-name-input'>
                         Name
                     </label>
                     <input type='text' id='folder-name-input' value={this.props.folder} onChange={this.props.newFolder}/>
+                    {this.props.nameError}
                     <button type='submit'>
                         Add Folder
                     </button>
