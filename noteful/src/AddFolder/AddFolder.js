@@ -31,7 +31,7 @@ export default class AddFolder extends Component{
 }
 
 AddFolder.propTypes={
-    folder: PropTypes.string,
+    folder: PropTypes.string.isRequired,
     folderSubmit: PropTypes.func,
     newFolder: PropTypes.func
 };

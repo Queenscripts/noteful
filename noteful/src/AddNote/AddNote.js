@@ -66,5 +66,5 @@ AddNote.propTypes={
     onNameChange: PropTypes.func,
     onfolderChange: PropTypes.func,
     content: PropTypes.string,
-    folder: PropTypes.string,
+    folder: PropTypes.string.isRequired,
 };
