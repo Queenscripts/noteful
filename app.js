@@ -13,14 +13,15 @@ app.use(morgan(((NODE_ENV === 'production') ? 'tiny' : 'common', {
   })))
 app.use(express.json())
 
-app.get('/api/folders', folderRouter)
-app.get('/api/notes', noteRouter)
-
-
-
 app.get('/', (req, res) => {
     res.send('hello! I\'\m runnin :)')
 })
+
+app.use('/api/folders', folderRouter)
+app.use('/api/notes', noteRouter)
+
+
+
 
 app.use(function errorHandler(error, req, res) {
     let response
