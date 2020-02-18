@@ -12,8 +12,9 @@ app.use(morgan(((NODE_ENV === 'production') ? 'tiny' : 'common', {
     skip: () => NODE_ENV === 'test'
   })))
 app.use(express.json())
-app.use('/api/folders', folderRouter)
-app.use('/api/notes', noteRouter)
+
+app.get('/api/folders', folderRouter)
+app.get('/api/notes', noteRouter)
 
 
 
