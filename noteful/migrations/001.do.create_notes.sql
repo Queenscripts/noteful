@@ -1,7 +1,0 @@
-CREATE TABLE notes (
-  id SERIAL PRIMARY KEY,
-  name TEXT NOT NULL,
-  modified TIMESTAMP NOT NULL DEFAULT now(),
-  content TEXT,
-  folder_id INTEGER REFERENCES folders(id) ON DELETE CASCADE NOT NULL
-);
