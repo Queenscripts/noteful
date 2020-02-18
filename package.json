@@ -15,6 +15,7 @@
   "author": "Queen Shabazz <code@queenscript.com>",
   "license": "MIT",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "faker": "^4.1.0",
     "json-server": "^0.16.0",
