@@ -8,8 +8,9 @@
     "start": "node server.js",
     "dev": "nodemon server.js",
     "migrate": "postgrator --config postgrator-config.js",
-    "migrate-production": "postgrator --config postgrator-production-config.js",
-    "predeploy": "npm audit && npm run migrate-production",
+    "migrate:production": "env SSL=true DATABASE_URL=$(heroku config:get DATABASE_URL) npm run migrate",
+   
+    "predeploy": "npm audit && npm run migrate:production",
     "deploy": "git push heroku master"
   },
   "author": "Queen Shabazz <code@queenscript.com>",
