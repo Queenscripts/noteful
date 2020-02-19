@@ -7,7 +7,6 @@ const jsonParser = express.json()
 const serializeNotes = note =>({
     id: note.id,
     name: note.name,
-    // modified: note.modified,
     folderId: note.folderId,
     content: note.content
 })
@@ -23,13 +22,13 @@ noteRouter
         .catch(next)
     })
     .post(jsonParser, (req, res, next) => {
-        const {name, folderId, content} = req.body
-        const newNote = {name, content}
+        const {name, folderid, content} = req.body
+        const newNote = {name, folderid, content}
         for (const [key, value] of Object.entries(newNote))
-            if(value == null)
+            if(value === null){
                 return res.status(400)
                 .json({ error: {message: `Missing ${key} in request body`}
-                })
+                })}
         NoteService.insertNote(
             req.app.get('db'),
             newNote
@@ -37,8 +36,8 @@ noteRouter
         .then(note =>{
             res 
                 .status(201)
-                .location(path.join(req.originalUrl, `/${note.id}`))
-                .json(serializeNote(note))
+                // .location(path.join(req.originalUrl, `/${note.id}`))
+                .json(serializeNotes(note))
         })
         .catch(next)
     })
@@ -75,8 +74,8 @@ noteRouter
             .catch(next)
         })
         .patch(jsonParser, (req, res, next) => {
-            const {content, modified} = req.body
-            const updateNote = {content, modified}
+            const {content} = req.body
+            const updateNote = {content}
             const numValues = Object.values(updateNote).filter(Boolean).length
             if(numValues===0)
                 return res.status(400).json({

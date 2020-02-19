@@ -19,6 +19,6 @@ module.exports = {
     ? process.env.TEST_DATABASE_URL
     : process.env.DATABASE_URL,
     // "ssl": true,
-  "ssl": !!process.env.SSL,
-  "validateChecksums": false, // Set to false to skip validation,
+    "sslmode": "allow",
+    "validateChecksums": false, // Set to false to skip validation,
 }

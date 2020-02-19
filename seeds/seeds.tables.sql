@@ -10,11 +10,11 @@ INSERT INTO folders ("name")
 VALUES 
 ('Important'),('Super'),('Spangley');
 
-INSERT INTO notes (name, folderid, content, modified)
+INSERT INTO notes ("name", "folderid", "content")
 
 VALUES 
-('help', 3, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer elementum nec tortor dignissim efficitur. Mauris.', 01/30/2020),
-('order', 3, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer elementum nec tortor dignissim efficitur. Mauris.', 01/20/2020);
+('help', 'Important', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer elementum nec tortor dignissim efficitur. Mauris.'),
+('order', 'Spagley', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer elementum nec tortor dignissim efficitur. Mauris.');
 -- ('order', 2, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer elementum nec tortor dignissim efficitur. Mauris.', 01/28/2020),
 -- ('order', 2, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer elementum nec tortor dignissim efficitur. Mauris.', 01/21/2020),
 -- ('help', 3, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer elementum nec tortor dignissim efficitur. Mauris.', 01/9/2020),
