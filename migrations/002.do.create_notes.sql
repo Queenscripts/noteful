@@ -3,5 +3,5 @@ CREATE TABLE "notes" (
     "name" TEXT NOT NULL UNIQUE,
     content TEXT NOT NULL,
     modified TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    folderId TEXT NOT NULL
+    folderid TEXT NOT NULL
 );
