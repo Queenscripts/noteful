@@ -34,6 +34,7 @@ noteRouter
             newNote
         )
         .then(note =>{
+            console.log('newnote=', note)
             res 
                 .status(201)
                 // .location(path.join(req.originalUrl, `/${note.id}`))
