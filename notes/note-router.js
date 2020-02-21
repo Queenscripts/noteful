@@ -90,7 +90,7 @@ noteRouter
                 updateNote
             )
             .then(removeRows => {
-                res.status(204).end()
+                res.status(204).header("Access-Control-Allow-Headers", "x-requested-with, x-requested-by").end()
             })
             .catch(next)
         })
