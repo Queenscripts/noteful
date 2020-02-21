@@ -7,7 +7,7 @@ const jsonParser = express.json()
 const serializeNotes = note =>({
     id: note.id,
     name: note.name,
-    folderId: note.folderId,
+    folderid: note.folderid,
     content: note.content
 })
 
@@ -36,6 +36,7 @@ noteRouter
         .then(note =>{
             res 
                 .status(201)
+                .location(path.join(req.originalUrl, `/${note.id}`))
                 .json(serializeNotes(note))
         })
         .catch(next)

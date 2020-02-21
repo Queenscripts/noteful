@@ -1,7 +1,7 @@
 CREATE TABLE "notes" (
     "id" SERIAL PRIMARY KEY,
     "name" TEXT NOT NULL UNIQUE,
-    "content" TEXT NOT NULL,
+    "content" TEXT,
     "modified" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    "folderid" VARCHAR(50) NOT NULL
+    "folderid" INTEGER REFERENCES folders(id) ON DELETE CASCADE NOT NULL
 );
