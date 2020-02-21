@@ -34,10 +34,8 @@ noteRouter
             newNote
         )
         .then(note =>{
-            console.log('newnote=', note)
             res 
                 .status(201)
-                // .location(path.join(req.originalUrl, `/${note.id}`))
                 .json(serializeNotes(note))
         })
         .catch(next)
@@ -89,9 +87,9 @@ noteRouter
                 req.params.note_id,
                 updateNote
             )
-            .then(removeRows => {
-                res.status(204).header("Access-Control-Allow-Headers", "x-requested-with, x-requested-by").end()
-            })
+            .then(
+                res.status(204).end()
+            )
             .catch(next)
         })
 
