@@ -22,7 +22,7 @@ noteRouter
         .catch(next)
     })
     .post(jsonParser, (req, res, next) => {
-        const {name, folderid, content} = req.body
+        const {name, folderid, content} = req.body;
         const newNote = {name, folderid, content}
         for (const [key, value] of Object.entries(newNote))
             if(value === null){
@@ -36,11 +36,12 @@ noteRouter
         .then(note =>{
             res 
                 .status(201)
-                .location(path.join(req.originalUrl, `/${note.id}`))
                 .json(serializeNotes(note))
         })
-        .catch(next)
-    })
+        .catch((err) => {
+            console.error('insert note error:', err);
+            next(err);
+          });    })
 
     noteRouter  
         .route('/:note_id')
