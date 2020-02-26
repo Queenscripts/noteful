@@ -42,7 +42,7 @@ folderRouter
     folderRouter  
         .route('/:folder_id')
         .all((req, res, next) => {
-            FoldersService.getById(
+            FolderService.getById(
                 req.app.get('db'),
                 req.params.folder_id
             )
