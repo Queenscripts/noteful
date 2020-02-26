@@ -60,16 +60,16 @@ folderRouter
         .get((req,res,next) => {
             res.json(serializeFolders(res.folder))
         })
-        // .delete((req,res,next) => {
-        //     FolderService.deleteFolder(
-        //         req.app.get('db'),
-        //         req.params.folder_id
-        //     )
-        //     .then(removeRows => {
-        //         res.status(204).end()
-        //     })
-        //     .catch(next)
-        // })
+        .delete((req,res,next) => {
+            FolderService.deleteFolder(
+                req.app.get('db'),
+                req.params.folder_id
+            )
+            .then(removeRows => {
+                res.status(204).end()
+            })
+            .catch(next)
+        })
         // .patch(jsonParser, (req, res, next) => {
         //     const {name} = req.body
         //     const updateFolder = {name}

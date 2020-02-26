@@ -21,11 +21,11 @@ const FolderService = {
             .first()
     },
 
-    // deleteFolder(knex, id){
-    //     return knex('folders')
-    //         .where({id})
-    //         .delete()
-    // },
+    deleteFolder(knex, id){
+        return knex('folders')
+            .where({id})
+            .delete()
+    },
 
     // updateFolder(knex, id, newFolderFields){
     //     return knex('folders')
