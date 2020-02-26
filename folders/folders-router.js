@@ -5,6 +5,7 @@ const folderRouter = express.Router()
 const jsonParser = express.json()
 
 const serializeFolders = folder =>({
+    id: folder.id,
     name: folder.name,
 })
 
